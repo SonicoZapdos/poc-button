@@ -1,11 +1,15 @@
-import { applyMiddleware, createStore } from "redux";
-import createSagaMiddleware from "redux-saga";
-import watchChangeColor from "../redux";
-import reducer from "./reducer";
+import { configureStore } from '@reduxjs/toolkit'
+// ...
 
+export const store = configureStore({
+  reducer: {
+    visibleButton: visibleSlice.reducer,
+  }
+})
 
-const sagaMiddleware = createSagaMiddleware();
-const store = createStore(reducer, applyMiddleware(sagaMiddleware));
-sagaMiddleware.run(watchChangeColor);
-
-export default store;
+// Get the type of our store variable
+export type AppStore = typeof store
+// Infer the `RootState` and `AppDispatch` types from the store itself
+export type RootState = ReturnType<AppStore['getState']>
+// Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
+export type AppDispatch = AppStore['dispatch']
