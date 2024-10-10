@@ -1,0 +1,19 @@
+.box {
+  margin: auto;
+  width: 40vw;
+  height: 80vh;
+  gap: 5vw;
+  background-color: antiquewhite;
+}
+
+.colorButton {
+  width: 10vw;
+  height: 10vh;
+  border-radius: 10px;
+  border: none;
+}
+
+.colorButton:hover {
+  cursor: pointer;
+  border: 1px solid white;
+}
