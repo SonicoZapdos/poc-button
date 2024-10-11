@@ -1,15 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit'
+import { visibledSlice } from './poc-button/buttonChangeVisible/visibleSlice'
+import { buttonXSlice } from './poc-button/buttonChangeColor/buttonX'
+import { buttonYSlice } from './poc-button/buttonChangeName/buttonY'
 // ...
 
 export const store = configureStore({
   reducer: {
-    visibleButton: visibleSlice.reducer,
+    visibleButton: visibledSlice.reducer,
+    buttonX: buttonXSlice.reducer,
+    buttonY: buttonYSlice.reducer,
   }
-})
-
-// Get the type of our store variable
-export type AppStore = typeof store
-// Infer the `RootState` and `AppDispatch` types from the store itself
-export type RootState = ReturnType<AppStore['getState']>
-// Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
-export type AppDispatch = AppStore['dispatch']
+});

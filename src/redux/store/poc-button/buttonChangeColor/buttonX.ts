@@ -1,18 +1,19 @@
 import { createSlice } from "@reduxjs/toolkit";
-import type { RootState } from "../store";
 
 // Define a type for the slice state
-interface ColorState {
-  value: string;
+interface ButtonXState {
+  cor: string;
+  text: string;
 }
 
 // Define the initial state using that type
-const initialState: ColorState = {
-  value: "#FFFFFF",
+const initialState: ButtonXState = {
+  cor: "#FFFFFF",
+  text: "Change Me",
 };
 
-export const counterSlice = createSlice({
-  name: "coloredButton",
+export const buttonXSlice = createSlice({
+  name: "buttonX",
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
@@ -22,12 +23,15 @@ export const counterSlice = createSlice({
       for (let i = 0; i < 6; i++) {
         color += letters[Math.floor(Math.random() * 16)];
       }
-      state.value = color;
+      console.log(color);
+      state.cor = color;
     },
-  },
+    changeText: (state, name: { payload: string }) => {
+      state.text = name.payload;
+    },
+  }
 });
 
-export const { changeColor } = counterSlice.actions;
+export const { changeColor, changeText } = buttonXSlice.actions;
 
-// Other code such as selectors can use the imported `RootState` type
-export const selectCount = (state: RootState) => state.counter.value;
+export default buttonXSlice.reducer;

@@ -1,26 +1,15 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { changeVisible } from '../redux/store/poc-button/buttonChangeVisible/visibleSlice';
 
-interface ColorButtonProps {
-    dispatchTypeThis: string;
-    dispatchTypeTarget: string;
-}
-
-const ColorButton: React.FC<ColorButtonProps> = ({ dispatchTypeThis, dispatchTypeTarget }) => {
+const ColorButton: React.FC = () => {
+  const cor  = useSelector((state: any) => state.buttonX.cor);
+  const text = useSelector((state: any) => state.buttonX.text);
   const dispatch = useDispatch();
-  const color = useSelector((state: any) => state[dispatchTypeThis]);
-
-  const changeColor = () => {
-    dispatch({ type: dispatchTypeTarget });
-  };
-
-  useEffect(() => {
-    dispatch({ type: dispatchTypeThis });
-  }, [dispatch, dispatchTypeThis ]);
 
   return (
-    <button className="colorButton" onClick={changeColor} style={{ backgroundColor: color }}>
-      Click Here
+    <button className="colorButton" onClick={() => dispatch(changeVisible())} style={{ backgroundColor: cor }}>
+      {text}
     </button>
   );
 };

@@ -1,14 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
-import type { RootState } from "../store";
 
 // Define a type for the slice state
 interface VisibleState {
-  value: boolean;
+  visible: boolean;
 }
 
 // Define the initial state using that type
 const initialState: VisibleState = {
-  value: false,
+  visible: false,
 };
 
 export const visibledSlice = createSlice({
@@ -16,13 +15,13 @@ export const visibledSlice = createSlice({
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
-    changeColor: (state) => {
-      state.value = !state.value;
+    changeVisible: (state) => {
+      state.visible = !state.visible;
     },
   },
 });
 
-export const { changeColor } = visibledSlice.actions;
+export const { changeVisible } = visibledSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
-export const selectCount = (state: RootState) => state.visibleButton.value;
+export default visibledSlice.reducer;

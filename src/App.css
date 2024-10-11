@@ -1,9 +1,13 @@
 .box {
   margin: auto;
-  width: 40vw;
+  width: 70vw;
   height: 80vh;
   gap: 5vw;
   background-color: antiquewhite;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 30px;
 }
 
 .colorButton {
@@ -11,9 +15,41 @@
   height: 10vh;
   border-radius: 10px;
   border: none;
+  color: black
 }
 
 .colorButton:hover {
   cursor: pointer;
   border: 1px solid white;
+}
+
+.input-aparencia {
+  width: 30vw;
+  height: 10vh;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  border: none;
+  border-radius: 25px;
+  gap: 10px;
+  background-color: turquoise;
+
+  && input {
+    width: 60%;
+    height: 30%;
+    background-color: rgb(30, 99, 92);
+    border: none;
+    padding: 5px;
+    border-radius: 10px;
+  }
+
+  && button {
+    width: 15%;
+    height: 30%;
+    background-color: rgb(30, 99, 92);
+    border: none;
+    border-radius: 10px;
+  } 
 }
