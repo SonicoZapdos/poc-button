@@ -1,0 +1,38 @@
+{
+    "Quadrado": {
+        "id": "0",
+        "data": {
+            "label": "Quadrado",
+            "color": "#FF5733",
+            "size": 100
+        },
+        "position": {
+            "x": 0,
+            "y": 0
+        }
+    },
+    "Circulo": {
+        "id": "0",
+        "data": {
+            "label": "Circulo",
+            "color": "#33FF57",
+            "size": 100
+        },
+        "position": {
+            "x": 0,
+            "y": 0
+        }
+    },
+    "Triangulo": {
+        "id": "0",
+        "data": {
+            "label": "Triangulo",
+            "color": "#5733FF",
+            "size": 100
+        },
+        "position": {
+            "x": 0,
+            "y": 0
+        }
+    }
+}
