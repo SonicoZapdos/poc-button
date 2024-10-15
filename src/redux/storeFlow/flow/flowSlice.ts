@@ -1,6 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { Edge, Node } from "@xyflow/react";
-import { NodePosition } from "../../../helpers/nodeTypes/nodeTypes";
+import { createSlice, current } from "@reduxjs/toolkit";
+import { applyNodeChanges, Edge, Node } from "@xyflow/react";
 
 interface FlowComponents {
     nodes: Node[];
@@ -13,7 +12,7 @@ const initialState: FlowComponents = {
         type: 'acao',
         data: { label: 'Node' },
         position: { x: 0, y: 50 },
-      },],
+    },],
     edges: [],
 };
 
@@ -34,11 +33,11 @@ const flowSlice = createSlice({
                 state.nodes.push(node);
             }
         },
-        newNodeOfDrag: (state: any, action: { payload: { position: NodePosition, edge: Edge } }) => {
+        newNodeOfDrag: (state: any, action: { payload: { node: Node, edge: Edge } }) => {
             const nodeId = Number.parseInt(state.nodes[state.nodes.length - 1]?.id) + 1 || 0;
             const edgeId = Number.parseInt(state.edges[state.edges.length - 1]?.id) + 1 || 1;
             if (nodeId !== 0 && edgeId !== 0) {
-                const nodeNew: Node = { id: nodeId.toString(), type:'acao', data: { label: 'Node' }, position: action.payload.position };
+                const nodeNew: Node = { id: nodeId.toString(), type: 'acao', data: action.payload.node.data, position: action.payload.node.position };
                 state.nodes.push(nodeNew);
                 const edgeNew: Edge = { id: edgeId.toString(), source: action.payload.edge.source, target: nodeNew.id };
                 state.edges.push(edgeNew);
@@ -60,6 +59,15 @@ const flowSlice = createSlice({
         nodeChange: (state, action: { payload: Node[] }) => {
             state.nodes = action.payload;
         },
+        nodeChangeStyle: (state, action: { payload: { id: string, key: string } }) => {
+            const node = current(state.nodes).find((node) => node.id === action.payload.id);
+            if (!node) {
+                return;
+            }
+            const nodeUpd = { ...node, type: action.payload.key };
+            const nodesUpd = current(state.nodes).map((node) => (node.id === action.payload.id ? nodeUpd : node));
+            state.nodes = nodesUpd;
+        },
         edgeChange: (state, action: { payload: Edge[] }) => {
             state.edges = action.payload;
         },
@@ -67,6 +75,6 @@ const flowSlice = createSlice({
     },
 });
 
-export const { newNode, newNodeOfDrag, removeNode, newEdge, removeEdge, removeEdgeByNodeId, nodeChange, edgeChange, saveState } = flowSlice.actions;
+export const { newNode, newNodeOfDrag, removeNode, newEdge, removeEdge, removeEdgeByNodeId, nodeChange, nodeChangeStyle, edgeChange, saveState } = flowSlice.actions;
 
 export default flowSlice.reducer;

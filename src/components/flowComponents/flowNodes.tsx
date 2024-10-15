@@ -1,38 +1,55 @@
 import { Handle, NodeToolbar, Position } from "@xyflow/react";
 import nodeTypes, { findNodeTypeByKey } from "../../helpers/nodeTypes/nodeTypes";
 import { CSSProperties } from "react";
+import { nodeChangeStyle } from "../../redux/storeFlow/flow/flowSlice";
+import { useDispatch } from "react-redux";
 
 interface NodeContent {
-    data: { label: string },
+    id: string,
+    data: {
+        label: string,
+        isVisible: boolean,
+        onChange: (id: string, key: string) => void,
+    },
     type: string,
 }
 
-function CreateNode({ data, type }: NodeContent) {
-    const nodePrefab: CSSProperties = findNodeTypeByKey(nodeTypes, type) || {};
+function CreateNode({ id, data, type }: NodeContent) {
+    const dispatch = useDispatch();
+
+    const nodePrefab: CSSProperties | undefined = findNodeTypeByKey(nodeTypes, type);
+    if (!nodePrefab) {
+        return null;
+    }
 
     return (
         <>
-        <Handle
-            type="target"
-            position={Position.Top}
-            style={{ background: 'black' }}
-        />
-        <NodeToolbar>
-            {/* {nodeTypes.components.map((nodeType) => {
-                return <button key={nodeType.toString()} style={nodeType}></button>;
-            })} */}
-        </NodeToolbar>
-            <div style={nodePrefab}>
+            <Handle
+                type="target"
+                position={Position.Top}
+                style={{ background: 'black' }}
+            />
+            <NodeToolbar isVisible={data?.isVisible} className="toolbar-button-node">
+                {nodeTypes.map((nodeType) => {
+                    return Object.keys(nodeType).map((key) => (
+                        <button className="button-node" key={key} onClick={() => dispatch(nodeChangeStyle({id, key})) }>
+                            <div style={nodeType[key].style}></div>
+                        </button>
+                    ));
+                })}
+            </NodeToolbar >
+            <div className="div-node" style={nodePrefab}>
                 {(data?.label as string).toString()}
             </div>
-        <Handle
-            type="source"
-            position={Position.Bottom}
-            id="a"
-            style={{ background: 'blue' }}
+            <Handle
+                type="source"
+                position={Position.Bottom}
+                id="a"
+                style={{ background: 'black' }}
             />
         </>
     );
 }
+
 
 export default CreateNode;

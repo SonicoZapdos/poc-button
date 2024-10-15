@@ -13,25 +13,23 @@ export interface NodeType {
 
 
 const nodeTypes: NodeType[] = [{
-    'decisão': {
+    'decisao': {
         style: {
             backgroundColor: '#FF5733',
             color: '#FFF',
             border: '1px solid #FF5733',
-            width: '100px',
-            height: '100px',
             transform: 'rotate(45deg)',
+            aspectRatio: 1 / 1,
         },
     },
     'acao': {
         style: {
-            backgroundColor: '#33FF57',
+            backgroundColor: 'blue',
             color: '#FFF',
-            border: '1px solid #33FF57',
+            border: '1px solid darkblue',
             borderRadius: '10%',
-            width: '100px',
-            height: '100px',
-        }
+            aspectRatio: 3 / 2,
+        },
     },
     'condicao': {
         style: {
@@ -39,9 +37,8 @@ const nodeTypes: NodeType[] = [{
             color: '#FFF',
             border: '1px solid #5733FF',
             borderRadius: '50%',
-            width: '100px',
-            height: '100px',
-        }
+            aspectRatio: 1 / 1,
+        },
     }
 }];
 

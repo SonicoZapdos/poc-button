@@ -5,7 +5,6 @@ import { useCallback, useRef } from "react";
 import CreateNode from "../flowComponents/flowNodes";
 
 const FlowTable = () => {
-    const reactFlowWrapper = useRef(null);
     const nodes: Node[] = useSelector((state: any) => state.flow.nodes);
     const edges: Edge[] = useSelector((state: any) => state.flow.edges);
     const { screenToFlowPosition } = useReactFlow();
@@ -13,6 +12,8 @@ const FlowTable = () => {
 
     const nodeTypes = {
         'acao': CreateNode,
+        'decisao': CreateNode,
+        'condicao': CreateNode,
     };
 
     const nodeOrigin: [number, number] = [0.5, 0];
@@ -43,7 +44,8 @@ const FlowTable = () => {
                     x: clientX,
                     y: clientY,
                 }),
-                data: { label: `Node test` },
+                type: 'acao',
+                data: { label: `Node test`, isVisible: false },
                 origin: [0.5, 0.0],
             };
             const edgeNew: Edge = {
@@ -51,13 +53,13 @@ const FlowTable = () => {
                 source: connectionState.fromNode?.id || '0',
                 target: '0',
             };
-            const payload = { position: nodeNew.position, edge: edgeNew };
+            const payload = { node: nodeNew, edge: edgeNew };
             dispatch(newNodeOfDrag(payload));
         }
     }, [screenToFlowPosition],);
 
     return (
-        <div className='flowTable' ref={reactFlowWrapper}>
+        <div className='flowTable'>
             <ReactFlow nodes={nodes} edges={edges} onNodesChange={onNodesChange} onEdgesChange={onEdgesChange} onConnect={onConnect} onConnectEnd={onConnectEnd} nodeOrigin={nodeOrigin} nodeTypes={nodeTypes} fitView>
                 <Background />
                 <Controls />
