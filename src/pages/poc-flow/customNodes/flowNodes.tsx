@@ -1,7 +1,7 @@
 import { Handle, NodeToolbar, Position } from "@xyflow/react";
 import { CSSProperties } from "react";
 import { useDispatch } from "react-redux";
-import { nodeChangeStyle, removeNode } from "../../../redux/storeFlow/flow/flowSlice";
+import { nodeChangeStyle, removeNode } from "../../../redux/storeFlow/flowSlice";
 import nodeTypes, { findNodeTypeByKey } from "../helpers/nodeTypes/nodeTypes";
 import './customNodes.css';
 
