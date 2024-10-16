@@ -9,7 +9,6 @@ interface NodeContent {
     data: {
         label: string,
         isVisible: boolean,
-        onChange: (id: string, key: string) => void,
     },
     type: string,
 }
@@ -17,7 +16,7 @@ interface NodeContent {
 function CreateNode({ id, data, type }: NodeContent) {
     const dispatch = useDispatch();
 
-    const nodePrefab: CSSProperties | undefined = findNodeTypeByKey(nodeTypes, type);
+    const nodePrefab: CSSProperties | undefined = findNodeTypeByKey(type);
     if (!nodePrefab) {
         return null;
     }
@@ -29,7 +28,7 @@ function CreateNode({ id, data, type }: NodeContent) {
                 position={Position.Top}
                 style={{ background: 'black' }}
             />
-            <NodeToolbar isVisible={data?.isVisible} className="toolbar-button-node">
+            <NodeToolbar className="toolbar-button-node">
                 {nodeTypes.map((nodeType) => {
                     return Object.keys(nodeType).map((key) => (
                         <button className="button-node" key={key} onClick={() => dispatch(nodeChangeStyle({id, key})) }>
@@ -38,7 +37,7 @@ function CreateNode({ id, data, type }: NodeContent) {
                     ));
                 })}
             </NodeToolbar >
-            <div className="div-node" style={nodePrefab}>
+            <div className="div-node">
                 {(data?.label as string).toString()}
             </div>
             <Handle

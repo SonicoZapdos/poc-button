@@ -1,16 +1,20 @@
 import { createSlice, current } from "@reduxjs/toolkit";
-import { applyNodeChanges, Edge, Node } from "@xyflow/react";
+import { Edge, Node } from "@xyflow/react";
+import { findNodeTypeByKey } from "../../../helpers/nodeTypes/nodeTypes";
 
 interface FlowComponents {
     nodes: Node[];
     edges: Edge[];
 }
 
+const style = findNodeTypeByKey('acao');
+
 const initialState: FlowComponents = {
     nodes: [{
-        id: '0',
+        id: '1',
         type: 'acao',
-        data: { label: 'Node' },
+        style: style,
+        data: { label: 'Node', nameStyle: 'acao'},
         position: { x: 0, y: 50 },
     },],
     edges: [],
@@ -24,12 +28,13 @@ const flowSlice = createSlice({
             if (state.nodes.length !== 0) {
                 const id = Number.parseInt(state.nodes[state.nodes.length - 1]?.id) + 1 || 0;
                 if (id !== 0) {
-                    const node: Node = { id: id.toString(), data: action.payload.data, position: action.payload.position };
+                    const style = findNodeTypeByKey(action.payload.data.nameStyle as string);
+                    const node: Node = { id: id.toString(), type:'acao', style: style, data: action.payload.data, position: action.payload.position };
                     state.nodes.push(node);
                 }
             }
             else {
-                const node: Node = { id: '1', data: action.payload.data, position: action.payload.position };
+                const node: Node = { id: '1', type:'acao', data: action.payload.data, position: action.payload.position };
                 state.nodes.push(node);
             }
         },
@@ -37,7 +42,8 @@ const flowSlice = createSlice({
             const nodeId = Number.parseInt(state.nodes[state.nodes.length - 1]?.id) + 1 || 0;
             const edgeId = Number.parseInt(state.edges[state.edges.length - 1]?.id) + 1 || 1;
             if (nodeId !== 0 && edgeId !== 0) {
-                const nodeNew: Node = { id: nodeId.toString(), type: 'acao', data: action.payload.node.data, position: action.payload.node.position };
+                const style = findNodeTypeByKey(action.payload.node.data.nameStyle as string);
+                const nodeNew: Node = { id: nodeId.toString(), type: 'acao', style: style, data: action.payload.node.data, position: action.payload.node.position };
                 state.nodes.push(nodeNew);
                 const edgeNew: Edge = { id: edgeId.toString(), source: action.payload.edge.source, target: nodeNew.id };
                 state.edges.push(edgeNew);
@@ -64,7 +70,8 @@ const flowSlice = createSlice({
             if (!node) {
                 return;
             }
-            const nodeUpd = { ...node, type: action.payload.key };
+            const style = findNodeTypeByKey(action.payload.key);
+            const nodeUpd = { ...node, style: style };
             const nodesUpd = current(state.nodes).map((node) => (node.id === action.payload.id ? nodeUpd : node));
             state.nodes = nodesUpd;
         },

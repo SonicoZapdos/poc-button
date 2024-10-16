@@ -18,7 +18,7 @@ const nodeTypes: NodeType[] = [{
             backgroundColor: '#FF5733',
             color: '#FFF',
             border: '1px solid #FF5733',
-            transform: 'rotate(45deg)',
+            textAlign: 'center',
             aspectRatio: 1 / 1,
         },
     },
@@ -42,7 +42,7 @@ const nodeTypes: NodeType[] = [{
     }
 }];
 
-export function findNodeTypeByKey(nodeTypes: NodeType[], key: string): CSSProperties | undefined {
+export function findNodeTypeByKey(key: string): CSSProperties | undefined {
     for (const nodeType of nodeTypes) {
         if (nodeType.hasOwnProperty(key)) {
             return nodeType[key].style;

@@ -1,7 +1,7 @@
 import { Node, Edge, ReactFlow, Background, Controls, applyNodeChanges, applyEdgeChanges, addEdge, Connection, useReactFlow, FinalConnectionState, ReactFlowProvider } from "@xyflow/react";
 import { useDispatch, useSelector } from "react-redux";
 import { edgeChange, nodeChange, newNodeOfDrag } from "../../redux/storeFlow/flow/flowSlice";
-import { useCallback, useRef } from "react";
+import { useCallback } from "react";
 import CreateNode from "../flowComponents/flowNodes";
 
 const FlowTable = () => {
@@ -12,8 +12,6 @@ const FlowTable = () => {
 
     const nodeTypes = {
         'acao': CreateNode,
-        'decisao': CreateNode,
-        'condicao': CreateNode,
     };
 
     const nodeOrigin: [number, number] = [0.5, 0];
@@ -45,8 +43,8 @@ const FlowTable = () => {
                     y: clientY,
                 }),
                 type: 'acao',
-                data: { label: `Node test`, isVisible: false },
-                origin: [0.5, 0.0],
+                data: { label: `Node test`, isVisible: false, nameStyle: 'acao' },
+                
             };
             const edgeNew: Edge = {
                 id: '0',

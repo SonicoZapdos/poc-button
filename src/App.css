@@ -65,6 +65,9 @@
 
     && div {
       width: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
   }
 
@@ -79,6 +82,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  text-align: center;
+  align-content: center;
 }
 
 .colorButton {
