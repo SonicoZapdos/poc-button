@@ -1,8 +1,9 @@
 import { Handle, NodeToolbar, Position } from "@xyflow/react";
-import nodeTypes, { findNodeTypeByKey } from "../../helpers/nodeTypes/nodeTypes";
 import { CSSProperties } from "react";
-import { nodeChangeStyle, removeNode } from "../../redux/storeFlow/flow/flowSlice";
 import { useDispatch } from "react-redux";
+import { nodeChangeStyle, removeNode } from "../../../redux/storeFlow/flow/flowSlice";
+import nodeTypes, { findNodeTypeByKey } from "../helpers/nodeTypes/nodeTypes";
+import './customNodes.css';
 
 interface NodeContent {
     id: string,

@@ -1,6 +1,6 @@
 import './App.css';
 import '@xyflow/react/dist/style.css';
-import FlowPage from './pages/flow/flowPage';
+import FlowPage from './pages/poc-flow/flowPage';
 
 function App() {
   return (

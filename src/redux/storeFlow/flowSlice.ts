@@ -1,6 +1,6 @@
 import { createSlice, current } from "@reduxjs/toolkit";
 import { Edge, Node } from "@xyflow/react";
-import { findNodeTypeByKey } from "../../../helpers/nodeTypes/nodeTypes";
+import { findNodeTypeByKey } from "../../../pages/poc-flow/helpers/nodeTypes/nodeTypes";
 
 interface FlowComponents {
     nodes: Node[];

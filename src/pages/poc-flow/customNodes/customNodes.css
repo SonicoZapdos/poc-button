@@ -1,0 +1,42 @@
+.toolbar-button-node {
+    height: 40px;
+    background-color: whitesmoke;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2px;
+    gap: 1px;
+
+    && .button-node {
+        width: 100%;
+        background-color: whitesmoke;
+        border: none;
+        border-radius: 10px;
+        padding: 4px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        aspect-ratio: 1/1;
+
+        && div {
+            width: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+
+    && .button-node:hover {
+        cursor: pointer;
+        background-color: lightgray;
+    }
+}
+
+.div-node {
+    width: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    align-content: center;
+}

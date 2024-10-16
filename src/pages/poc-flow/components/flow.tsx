@@ -80,10 +80,4 @@ const FlowTable = () => {
     // </div>
 }
 
-export default () => {
-    return (
-        <ReactFlowProvider>
-            <FlowTable />
-        </ReactFlowProvider>
-    );
-};
+export default FlowTable;
