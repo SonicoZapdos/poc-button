@@ -1,7 +1,7 @@
 import { Handle, NodeToolbar, Position } from "@xyflow/react";
 import nodeTypes, { findNodeTypeByKey } from "../../helpers/nodeTypes/nodeTypes";
 import { CSSProperties } from "react";
-import { nodeChangeStyle } from "../../redux/storeFlow/flow/flowSlice";
+import { nodeChangeStyle, removeNode } from "../../redux/storeFlow/flow/flowSlice";
 import { useDispatch } from "react-redux";
 
 interface NodeContent {
@@ -31,11 +31,14 @@ function CreateNode({ id, data, type }: NodeContent) {
             <NodeToolbar className="toolbar-button-node">
                 {nodeTypes.map((nodeType) => {
                     return Object.keys(nodeType).map((key) => (
-                        <button className="button-node" key={key} onClick={() => dispatch(nodeChangeStyle({id, key})) }>
+                        <button className="button-node" key={key} onClick={() => dispatch(nodeChangeStyle({ id, key }))}>
                             <div style={nodeType[key].style}></div>
                         </button>
                     ));
                 })}
+                <button className="button-node" onClick={() => dispatch(removeNode(id))}><span className="material-symbols-outlined">
+                    delete
+                </span></button>
             </NodeToolbar >
             <div className="div-node">
                 {(data?.label as string).toString()}

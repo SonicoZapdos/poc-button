@@ -1,14 +1,12 @@
 import './App.css';
 import '@xyflow/react/dist/style.css';
-import FlowTable from './components/flowTable/flow';
+import FlowPage from './pages/flow/flowPage';
 
 function App() {
   return (
     <div className='box'>
-      <div className='col-button'>  
-      </div>
       <div className='col-flow'>
-        <FlowTable></FlowTable>
+        <FlowPage></FlowPage>
       </div>
     </div>
   );

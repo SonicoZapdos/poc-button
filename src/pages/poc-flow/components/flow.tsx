@@ -1,8 +1,9 @@
 import { Node, Edge, ReactFlow, Background, Controls, applyNodeChanges, applyEdgeChanges, addEdge, Connection, useReactFlow, FinalConnectionState, ReactFlowProvider } from "@xyflow/react";
 import { useDispatch, useSelector } from "react-redux";
-import { edgeChange, nodeChange, newNodeOfDrag } from "../../redux/storeFlow/flow/flowSlice";
+import { edgeChange, nodeChange, newNodeOfDrag } from "../../../redux/storeFlow/flow/flowSlice";
 import { useCallback } from "react";
-import CreateNode from "../flowComponents/flowNodes";
+import CreateNode from "../customNodes/flowNodes";
+import CustomEdge from "../customEdges/flowEdges";
 
 const FlowTable = () => {
     const nodes: Node[] = useSelector((state: any) => state.flow.nodes);
@@ -13,6 +14,10 @@ const FlowTable = () => {
     const nodeTypes = {
         'acao': CreateNode,
     };
+
+    const edgeTypes = {
+        'custom': CustomEdge,
+    }
 
     const nodeOrigin: [number, number] = [0.5, 0];
 
@@ -28,6 +33,8 @@ const FlowTable = () => {
 
     const onConnect = (edge: Connection) => {
         const edgeUpd = addEdge(edge, edges);
+        edgeUpd[edgeUpd.length - 1].id = (Number(edgeUpd[edgeUpd.length - 1].id) + 1).toString();
+        edgeUpd[edgeUpd.length - 1].type = 'custom';
         dispatch(edgeChange(edgeUpd));
     };
 
@@ -50,6 +57,7 @@ const FlowTable = () => {
                 id: '0',
                 source: connectionState.fromNode?.id || '0',
                 target: '0',
+                type: 'custom',
             };
             const payload = { node: nodeNew, edge: edgeNew };
             dispatch(newNodeOfDrag(payload));
@@ -58,7 +66,7 @@ const FlowTable = () => {
 
     return (
         <div className='flowTable'>
-            <ReactFlow nodes={nodes} edges={edges} onNodesChange={onNodesChange} onEdgesChange={onEdgesChange} onConnect={onConnect} onConnectEnd={onConnectEnd} nodeOrigin={nodeOrigin} nodeTypes={nodeTypes} fitView>
+            <ReactFlow nodes={nodes} edges={edges} onNodesChange={onNodesChange} onEdgesChange={onEdgesChange} onConnect={onConnect} onConnectEnd={onConnectEnd} nodeOrigin={nodeOrigin} nodeTypes={nodeTypes} edgeTypes={edgeTypes} fitView>
                 <Background />
                 <Controls />
             </ReactFlow>

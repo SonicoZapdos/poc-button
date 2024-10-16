@@ -45,16 +45,19 @@ const flowSlice = createSlice({
                 const style = findNodeTypeByKey(action.payload.node.data.nameStyle as string);
                 const nodeNew: Node = { id: nodeId.toString(), type: 'acao', style: style, data: action.payload.node.data, position: action.payload.node.position };
                 state.nodes.push(nodeNew);
-                const edgeNew: Edge = { id: edgeId.toString(), source: action.payload.edge.source, target: nodeNew.id };
+                const edgeNew: Edge = { id: edgeId.toString(), type: 'custom', source: action.payload.edge.source, target: nodeNew.id };
                 state.edges.push(edgeNew);
             }
         },
         newEdge: (state, action: { payload: Edge }) => {
+            action.payload.id = (state.edges.length + 1).toString();
+            action.payload.type = 'custom';
             state.edges.push(action.payload);
         },
         removeNode: (state, action: { payload: string }) => {
             state.nodes = state.nodes.filter((node) => node.id !== action.payload);
             removeEdgeByNodeId(action.payload);
+            console.log(state.nodes);
         },
         removeEdge: (state, action: { payload: string }) => {
             state.edges = state.edges.filter((edge) => edge.id !== action.payload);
