@@ -1,11 +1,10 @@
-import { Handle, NodeToolbar, Position } from "@xyflow/react";
+import { Handle, Node, NodeToolbar, Position } from "@xyflow/react";
 import { useDispatch } from "react-redux";
 import { nodeChangeStyle, removeNode } from "../../../redux/storeFlow/flowSlice";
 import nodeTypes from "../helpers/nodeTypes/nodeTypes";
-import { Node } from "../prefabsItens/nodePrefab";
 import './customNodes.css';
 
-function CreateNode({ id, data }: Node) {
+function CreateNode({ id, data }: any) {
     const dispatch = useDispatch();
 
     return (

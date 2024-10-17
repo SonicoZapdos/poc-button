@@ -1,7 +1,7 @@
 import { createSlice, current } from "@reduxjs/toolkit";
-import { Edge } from "@xyflow/react";
+import { Edge, Node } from "@xyflow/react";
 import { findNodeTypeByKey } from "../../pages/poc-flow/helpers/nodeTypes/nodeTypes";
-import NodePrefab, { Node } from "../../pages/poc-flow/prefabsItens/nodePrefab";
+import NodePrefab from "../../pages/poc-flow/prefabsItens/nodePrefab";
 
 interface FlowComponents {
   nodes: Node[];
@@ -52,7 +52,6 @@ const flowSlice = createSlice({
     removeNode: (state, action: { payload: string }) => {
       state.nodes = state.nodes.filter((node) => node.id !== action.payload);
       removeEdgeByNodeId(action.payload);
-      console.log(state.nodes);
     },
 
     removeEdge: (state, action: { payload: string }) => {

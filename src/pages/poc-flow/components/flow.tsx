@@ -1,14 +1,16 @@
-import { Edge, ReactFlow, Background, Controls, applyNodeChanges, applyEdgeChanges, addEdge, Connection, useReactFlow, FinalConnectionState, ReactFlowProvider } from "@xyflow/react";
+import { Edge, Node, ReactFlow, Background, Controls, applyNodeChanges, applyEdgeChanges, addEdge, Connection, useReactFlow, FinalConnectionState } from "@xyflow/react";
 import { useDispatch, useSelector } from "react-redux";
-import { edgeChange, nodeChange, newNodeOfDrag } from "../../../redux/storeFlow/flowSlice";
+import { edgeChange, nodeChange, newNodeOfDrag, newNode } from "../../../redux/storeFlow/flowSlice";
 import { useCallback } from "react";
 import CreateNode from "../customNodes/flowNodes";
 import CustomEdge from "../customEdges/flowEdges";
-import NodePrefab, { Node } from "../prefabsItens/nodePrefab";
+import NodePrefab from "../prefabsItens/nodePrefab";
+import SideBarAddNodes from "../sideBar/sideBarAddNodes";
 
 const FlowTable = () => {
     const nodes: Node[] = useSelector((state: any) => state.flow.nodes);
     const edges: Edge[] = useSelector((state: any) => state.flow.edges);
+    const type = useSelector((state: any) => state.drag.type);
     const { screenToFlowPosition } = useReactFlow();
     const dispatch = useDispatch();
 
@@ -55,40 +57,42 @@ const FlowTable = () => {
         }
     }, [screenToFlowPosition],);
 
-    // const onDragOver = useCallback((event: any) => {
-    //     event.preventDefault();
-    //     event.dataTransfer.dropEffect = 'move';
-    // }, []
-    // );
+    const onDragOver = useCallback((event: any) => {
+        event.preventDefault();
+        event.dataTransfer.dropEffect = 'move';
+    }, []
+    );
 
-    // const onDrop = (event: any) => {
-    //     event.preventDefault();
+    const onDrop = useCallback((event: any) => {
+        event.preventDefault();
 
-    //     // check if the dropped element is valid
-    //     if (!type) {
-    //         return;
-    //     }
+        // check if the dropped element is valid
+        if (!type) {
+            return;
+        }
 
-    //     const position = screenToFlowPosition({
-    //         x: event.clientX,
-    //         y: event.clientY,
-    //     });
-    //     const nodeNew: Node = NodePrefab(position, 'acao', 'acao');
+        const position = screenToFlowPosition({
+            x: event.clientX,
+            y: event.clientY,
+        });
+        const nodeNew: Node = NodePrefab(position, 'acao', type);
 
-    //     dispatch(newNode(nodeNew));
-    // };
+        dispatch(newNode(nodeNew));
+    }, [screenToFlowPosition, type]);
 
     return (
         <div className='flowTable'>
+            <SideBarAddNodes/>
             <ReactFlow
+            className="reactFlow"
                 nodes={nodes}
                 edges={edges}
                 onNodesChange={onNodesChange}
                 onEdgesChange={onEdgesChange}
                 onConnect={onConnect}
                 onConnectEnd={onConnectEnd}
-                // onDragOver={onDragOver}
-                // onDrop={onDrop}
+                onDragOver={onDragOver}
+                onDrop={onDrop}
                 nodeTypes={nodeTypes}
                 edgeTypes={edgeTypes}
                 fitView

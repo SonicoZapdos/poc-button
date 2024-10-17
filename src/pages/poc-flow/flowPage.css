@@ -1,6 +1,38 @@
 .flowTable {
   width: 100%;
   height: 100%;
+  display: flex;
+
+  .reactFlow {
+    width: 100%;
+    height: 100%;
+  }
+
+  .side-bar-buttons {
+    width: 8%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;  
+    gap: 5px;
+    border-right: 2px solid black;
+    padding: 5px;
+
+    .side-button-node {
+      width: 75%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 5px;
+      cursor: pointer;
+      aspect-ratio: 1/1;
+
+      div {
+        width: 90%;
+      }
+    }
+  }
 }
 
 .material-symbols-outlined {

@@ -1,43 +1,5 @@
-import { CoordinateExtent, Position, XYPosition } from "@xyflow/react";
+import { Node, XYPosition } from "@xyflow/react";
 import { findNodeTypeByKey } from "../helpers/nodeTypes/nodeTypes";
-import { useSelector } from "react-redux";
-
-export interface Node {
-    id: string;
-    data: {
-        label: string;
-        isVisible: boolean;
-        nameStyle: string;
-    };
-    position: XYPosition;
-    origin?: [number, number];
-    ariaLabel?: string;
-    type?: string;
-    style?: object;
-    className?: string;
-    draggable?: boolean;
-    hidden?: boolean;
-    connectable?: boolean;
-    sourcePosition?: Position;
-    targetPosition?: Position;
-    deletable?: boolean;
-    selectable?: boolean;
-    dragging?: boolean;
-    dragHandle?: string;
-    expandParent?: boolean;
-    extent?: "parent" | CoordinateExtent;
-    focusable?: boolean;
-    height?: number;
-    handles?: any[];
-    initialHeight?: number;
-    initialWidth?: number;
-    measured?: object;
-    parentId?: string;
-    resizing?: boolean;
-    selected?: boolean;
-    width?: number;
-    zIndex?: number;
-}
 
 function NodePrefab(position: XYPosition, type: string | null, nameStyle: string | null): Node {
 
