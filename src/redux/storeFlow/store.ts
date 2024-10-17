@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import flowSlice from "./flow/flowSlice";
+import flowSlice from "./flowSlice";
 
 const flowStore = configureStore({
     reducer: {

@@ -1,54 +1,56 @@
 import { CSSProperties } from "react";
 
 export interface NodePosition {
-    x: number;
-    y: number;
+  x: number;
+  y: number;
 }
 
 export interface NodeType {
-    [key: string]: {
-        style: CSSProperties;
-    }
-};
+  [key: string]: {
+    style: CSSProperties;
+  };
+}
 
-
-const nodeTypes: NodeType[] = [{
+const nodeTypes: NodeType[] = [
+  {
     'decisao': {
-        style: {
-            backgroundColor: '#FF5733',
-            color: '#FFF',
-            border: '1px solid #FF5733',
-            textAlign: 'center',
-            aspectRatio: 1 / 1,
-        },
+      style: {
+        backgroundColor: "#FF5733",
+        color: "#FFF",
+        border: "1px solid #FF5733",
+        textAlign: "center",
+        clipPath: "polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)",
+        aspectRatio: 1 / 1,
+      },
     },
     'acao': {
-        style: {
-            backgroundColor: 'blue',
-            color: '#FFF',
-            border: '1px solid darkblue',
-            borderRadius: '10%',
-            aspectRatio: 3 / 2,
-        },
+      style: {
+        backgroundColor: "blue",
+        color: "#FFF",
+        border: "1px solid darkblue",
+        borderRadius: "10%",
+        aspectRatio: 3 / 2,
+      },
     },
     'condicao': {
-        style: {
-            backgroundColor: '#5733FF',
-            color: '#FFF',
-            border: '1px solid #5733FF',
-            borderRadius: '50%',
-            aspectRatio: 1 / 1,
-        },
-    }
-}];
+      style: {
+        backgroundColor: "#5733FF",
+        color: "#FFF",
+        border: "1px solid #5733FF",
+        borderRadius: "50%",
+        aspectRatio: 1 / 1,
+      },
+    },
+  },
+];
 
 export function findNodeTypeByKey(key: string): CSSProperties | undefined {
-    for (const nodeType of nodeTypes) {
-        if (nodeType.hasOwnProperty(key)) {
-            return nodeType[key].style;
-        }
+  for (const nodeType of nodeTypes) {
+    if (nodeType.hasOwnProperty(key)) {
+      return nodeType[key].style;
     }
-    return undefined;
+  }
+  return undefined;
 }
 
 export default nodeTypes;

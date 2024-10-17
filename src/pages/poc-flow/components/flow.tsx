@@ -1,9 +1,10 @@
-import { Node, Edge, ReactFlow, Background, Controls, applyNodeChanges, applyEdgeChanges, addEdge, Connection, useReactFlow, FinalConnectionState, ReactFlowProvider } from "@xyflow/react";
+import { Edge, ReactFlow, Background, Controls, applyNodeChanges, applyEdgeChanges, addEdge, Connection, useReactFlow, FinalConnectionState, ReactFlowProvider } from "@xyflow/react";
 import { useDispatch, useSelector } from "react-redux";
-import { edgeChange, nodeChange, newNodeOfDrag } from "../../../redux/storeFlow/flow/flowSlice";
+import { edgeChange, nodeChange, newNodeOfDrag } from "../../../redux/storeFlow/flowSlice";
 import { useCallback } from "react";
 import CreateNode from "../customNodes/flowNodes";
 import CustomEdge from "../customEdges/flowEdges";
+import NodePrefab, { Node } from "../prefabsItens/nodePrefab";
 
 const FlowTable = () => {
     const nodes: Node[] = useSelector((state: any) => state.flow.nodes);
@@ -18,8 +19,6 @@ const FlowTable = () => {
     const edgeTypes = {
         'custom': CustomEdge,
     }
-
-    const nodeOrigin: [number, number] = [0.5, 0];
 
     const onNodesChange = (changes: any) => {
         const updatedNodes = applyNodeChanges(changes, nodes);
@@ -43,16 +42,8 @@ const FlowTable = () => {
         if (!connectionState.isValid) {
             // we need to remove the wrapper bounds, in order to get the correct position
             const { clientX, clientY } = 'changedTouches' in event ? event.changedTouches[0] : event;
-            const nodeNew: Node = {
-                id: '0',
-                position: screenToFlowPosition({
-                    x: clientX,
-                    y: clientY,
-                }),
-                type: 'acao',
-                data: { label: `Node test`, isVisible: false, nameStyle: 'acao' },
-                
-            };
+            const position = screenToFlowPosition({x: clientX, y: clientY});
+            const nodeNew: Node = NodePrefab(position, 'acao', 'acao');
             const edgeNew: Edge = {
                 id: '0',
                 source: connectionState.fromNode?.id || '0',
@@ -64,9 +55,44 @@ const FlowTable = () => {
         }
     }, [screenToFlowPosition],);
 
+    // const onDragOver = useCallback((event: any) => {
+    //     event.preventDefault();
+    //     event.dataTransfer.dropEffect = 'move';
+    // }, []
+    // );
+
+    // const onDrop = (event: any) => {
+    //     event.preventDefault();
+
+    //     // check if the dropped element is valid
+    //     if (!type) {
+    //         return;
+    //     }
+
+    //     const position = screenToFlowPosition({
+    //         x: event.clientX,
+    //         y: event.clientY,
+    //     });
+    //     const nodeNew: Node = NodePrefab(position, 'acao', 'acao');
+
+    //     dispatch(newNode(nodeNew));
+    // };
+
     return (
         <div className='flowTable'>
-            <ReactFlow nodes={nodes} edges={edges} onNodesChange={onNodesChange} onEdgesChange={onEdgesChange} onConnect={onConnect} onConnectEnd={onConnectEnd} nodeOrigin={nodeOrigin} nodeTypes={nodeTypes} edgeTypes={edgeTypes} fitView>
+            <ReactFlow
+                nodes={nodes}
+                edges={edges}
+                onNodesChange={onNodesChange}
+                onEdgesChange={onEdgesChange}
+                onConnect={onConnect}
+                onConnectEnd={onConnectEnd}
+                // onDragOver={onDragOver}
+                // onDrop={onDrop}
+                nodeTypes={nodeTypes}
+                edgeTypes={edgeTypes}
+                fitView
+            >
                 <Background />
                 <Controls />
             </ReactFlow>

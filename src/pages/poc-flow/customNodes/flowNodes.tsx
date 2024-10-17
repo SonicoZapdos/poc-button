@@ -1,26 +1,12 @@
 import { Handle, NodeToolbar, Position } from "@xyflow/react";
-import { CSSProperties } from "react";
 import { useDispatch } from "react-redux";
 import { nodeChangeStyle, removeNode } from "../../../redux/storeFlow/flowSlice";
-import nodeTypes, { findNodeTypeByKey } from "../helpers/nodeTypes/nodeTypes";
+import nodeTypes from "../helpers/nodeTypes/nodeTypes";
+import { Node } from "../prefabsItens/nodePrefab";
 import './customNodes.css';
 
-interface NodeContent {
-    id: string,
-    data: {
-        label: string,
-        isVisible: boolean,
-    },
-    type: string,
-}
-
-function CreateNode({ id, data, type }: NodeContent) {
+function CreateNode({ id, data }: Node) {
     const dispatch = useDispatch();
-
-    const nodePrefab: CSSProperties | undefined = findNodeTypeByKey(type);
-    if (!nodePrefab) {
-        return null;
-    }
 
     return (
         <>
@@ -42,7 +28,9 @@ function CreateNode({ id, data, type }: NodeContent) {
                 </span></button>
             </NodeToolbar >
             <div className="div-node">
-                {(data?.label as string).toString()}
+                <div className="div-node-content">
+                    {(data?.label as string).toString()}
+                </div>
             </div>
             <Handle
                 type="source"
