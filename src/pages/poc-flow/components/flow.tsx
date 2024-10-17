@@ -1,16 +1,19 @@
-import { Edge, Node, ReactFlow, Background, Controls, applyNodeChanges, applyEdgeChanges, addEdge, Connection, useReactFlow, FinalConnectionState } from "@xyflow/react";
+import { Edge, Node, ReactFlow, Background, Controls, applyNodeChanges, applyEdgeChanges, addEdge, Connection, useReactFlow, FinalConnectionState, ReactFlowInstance, Panel } from "@xyflow/react";
 import { useDispatch, useSelector } from "react-redux";
-import { edgeChange, nodeChange, newNodeOfDrag, newNode } from "../../../redux/storeFlow/flowSlice";
-import { useCallback } from "react";
+import { edgeChange, nodeChange, newNodeOfDrag, newNode, saveChanges, saveState } from "../../../redux/storeFlow/flowSlice";
+import { useCallback, useState } from "react";
 import CreateNode from "../customNodes/flowNodes";
 import CustomEdge from "../customEdges/flowEdges";
 import NodePrefab from "../prefabsItens/nodePrefab";
 import SideBarAddNodes from "../sideBar/sideBarAddNodes";
+import ModalResult from "./modalResult";
 
 const FlowTable = () => {
     const nodes: Node[] = useSelector((state: any) => state.flow.nodes);
     const edges: Edge[] = useSelector((state: any) => state.flow.edges);
-    const type = useSelector((state: any) => state.drag.type);
+    const prefab = useSelector((state: any) => state.flow.prefab);
+    const [instance, setInstance] = useState<ReactFlowInstance<Node, Edge> | null>(null);
+    const [visible, setVisible] = useState(false);
     const { screenToFlowPosition } = useReactFlow();
     const dispatch = useDispatch();
 
@@ -44,7 +47,7 @@ const FlowTable = () => {
         if (!connectionState.isValid) {
             // we need to remove the wrapper bounds, in order to get the correct position
             const { clientX, clientY } = 'changedTouches' in event ? event.changedTouches[0] : event;
-            const position = screenToFlowPosition({x: clientX, y: clientY});
+            const position = screenToFlowPosition({ x: clientX, y: clientY });
             const nodeNew: Node = NodePrefab(position, 'acao', 'acao');
             const edgeNew: Edge = {
                 id: '0',
@@ -67,7 +70,7 @@ const FlowTable = () => {
         event.preventDefault();
 
         // check if the dropped element is valid
-        if (!type) {
+        if (!prefab) {
             return;
         }
 
@@ -75,32 +78,52 @@ const FlowTable = () => {
             x: event.clientX,
             y: event.clientY,
         });
-        const nodeNew: Node = NodePrefab(position, 'acao', type);
+        const nodeNew: Node = NodePrefab(position, 'acao', prefab);
 
         dispatch(newNode(nodeNew));
-    }, [screenToFlowPosition, type]);
+    }, [screenToFlowPosition, prefab]);
+
+    const onSaveChanges = () => {
+        if (instance) {
+            dispatch(saveChanges(instance.toObject()));
+        }
+    };
+
+    const exportInstance = () => {
+        dispatch(saveState());
+        setVisible(true);
+    }
 
     return (
-        <div className='flowTable'>
-            <SideBarAddNodes/>
-            <ReactFlow
-            className="reactFlow"
-                nodes={nodes}
-                edges={edges}
-                onNodesChange={onNodesChange}
-                onEdgesChange={onEdgesChange}
-                onConnect={onConnect}
-                onConnectEnd={onConnectEnd}
-                onDragOver={onDragOver}
-                onDrop={onDrop}
-                nodeTypes={nodeTypes}
-                edgeTypes={edgeTypes}
-                fitView
-            >
-                <Background />
-                <Controls />
-            </ReactFlow>
-        </div>
+        <>
+            <div className='flowTable'>
+                <SideBarAddNodes />
+                <ReactFlow
+                    className="reactFlow"
+                    nodes={nodes}
+                    edges={edges}
+                    onNodesChange={onNodesChange}
+                    onEdgesChange={onEdgesChange}
+                    onConnect={onConnect}
+                    onConnectEnd={onConnectEnd}
+                    onDragOver={onDragOver}
+                    onDrop={onDrop}
+                    nodeTypes={nodeTypes}
+                    edgeTypes={edgeTypes}
+                    onInit={setInstance}
+                    fitView
+                    fitViewOptions={{ padding: 2 }}
+                >
+                    <Background />
+                    <Controls />
+                    <Panel className="flow-panel" position="top-right">
+                        <button onClick={onSaveChanges}>Save Alterations</button>
+                        <button onClick={exportInstance}>Export to txt</button>
+                    </Panel>
+                </ReactFlow>
+                {visible && <ModalResult setVisible={setVisible} />}
+            </div>
+        </>
     );
 
     // <div className='box'>

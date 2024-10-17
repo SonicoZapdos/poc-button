@@ -22,9 +22,11 @@ function CreateNode({ id, data }: any) {
                         </button>
                     ));
                 })}
-                <button className="button-node" onClick={() => dispatch(removeNode(id))}><span className="material-symbols-outlined">
-                    delete
-                </span></button>
+                <button className="button-node" onClick={() => dispatch(removeNode(id))}>
+                    <span className="material-symbols-outlined">
+                        delete
+                    </span>
+                </button>
             </NodeToolbar >
             <div className="div-node">
                 <div className="div-node-content">

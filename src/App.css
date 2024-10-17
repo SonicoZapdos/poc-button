@@ -1,5 +1,6 @@
 .box {
-  margin: auto;
+  margin: none;
+  padding: none;
   width: 100vw;
   height: 100vh;
   display: flex;

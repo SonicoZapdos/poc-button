@@ -1,13 +1,15 @@
 import { createSlice, current } from "@reduxjs/toolkit";
-import { Edge, Node } from "@xyflow/react";
+import { Edge, Node, ReactFlowJsonObject } from "@xyflow/react";
 import { findNodeTypeByKey } from "../../pages/poc-flow/helpers/nodeTypes/nodeTypes";
 import NodePrefab from "../../pages/poc-flow/prefabsItens/nodePrefab";
 
 interface FlowComponents {
   nodes: Node[];
   edges: Edge[];
+  instance: ReactFlowJsonObject<Node, Edge> | null,
   nodeId: number;
   edgeId: number;
+  prefab: string;
 }
 
 const node: Node = NodePrefab({ x: 0, y: 0 }, "acao", "acao");
@@ -15,8 +17,10 @@ const node: Node = NodePrefab({ x: 0, y: 0 }, "acao", "acao");
 const initialState: FlowComponents = {
   nodes: [node],
   edges: [],
+  instance: null,
   nodeId: 0,
   edgeId: 0,
+  prefab: '',
 };
 
 const flowSlice = createSlice({
@@ -91,7 +95,18 @@ const flowSlice = createSlice({
       state.edges = action.payload;
     },
 
-    saveState: (state) => {},
+    prefabChange: (state: any, action: { payload: string }) => {
+      state.prefab = action.payload;
+    },
+
+    saveChanges: (state, action: { payload: ReactFlowJsonObject<Node, Edge> | null}) => {
+      console.log(action.payload);
+      state.instance = action.payload;
+    },
+
+    saveState: (state) => {
+      localStorage.setItem("flow", JSON.stringify(state.instance));
+    },
   },
 });
 
@@ -105,6 +120,8 @@ export const {
   nodeChange,
   nodeChangeStyle,
   edgeChange,
+  prefabChange,
+  saveChanges,
   saveState,
 } = flowSlice.actions;
 

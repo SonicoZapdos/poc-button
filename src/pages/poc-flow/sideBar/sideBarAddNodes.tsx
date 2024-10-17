@@ -1,12 +1,12 @@
 import { useDispatch } from "react-redux";
 import nodeTypes from "../helpers/nodeTypes/nodeTypes";
-import { setType } from "../../../redux/storeFlow/dragSlice";
+import { prefabChange } from "../../../redux/storeFlow/flowSlice";
 
 const SideBarAddNodes = () => {
     const dispatch = useDispatch();
 
     const onDragStart = (event: any, nodeType: string) => {
-        dispatch(setType(nodeType));
+        dispatch(prefabChange(nodeType));
         event.dataTransfer.effectAllowed = 'move';
     };
     return (
