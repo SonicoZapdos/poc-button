@@ -3,17 +3,31 @@ import { useDispatch } from "react-redux";
 import { nodeChangeStyle, removeNode } from "../../../redux/storeFlow/flowSlice";
 import nodeTypes from "../helpers/nodeTypes/nodeTypes";
 import './customNodes.css';
+import NodeConfig from "../../../entity/nodeConfig";
 
-function CreateNode({ id, data }: any) {
+interface CreateNodeProps {
+    id: string;
+    data: NodeConfig;
+};
+
+function CreateNode({ id, data }: CreateNodeProps) {
     const dispatch = useDispatch();
 
     return (
         <>
+            <div>
             <Handle
                 type="target"
                 position={Position.Top}
                 style={{ background: 'black' }}
             />
+            <Handle
+                type="source"
+                position={Position.Bottom}
+                id="a"
+                style={{ background: 'black' }}
+            />
+            </div>
             <NodeToolbar className="toolbar-button-node">
                 {nodeTypes.map((nodeType) => {
                     return Object.keys(nodeType).map((key) => (
@@ -33,12 +47,6 @@ function CreateNode({ id, data }: any) {
                     {(data?.label as string).toString()}
                 </div>
             </div>
-            <Handle
-                type="source"
-                position={Position.Bottom}
-                id="a"
-                style={{ background: 'black' }}
-            />
         </>
     );
 }
