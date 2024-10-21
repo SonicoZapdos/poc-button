@@ -2,6 +2,7 @@ import { createSlice, current } from "@reduxjs/toolkit";
 import { Edge, Node, ReactFlowJsonObject } from "@xyflow/react";
 import { findNodeTypeByKey } from "../../pages/poc-flow/helpers/nodeTypes/nodeTypes";
 import NodePrefab from "../../pages/poc-flow/prefabsItens/nodePrefab";
+import NodeConfig from "../../entity/nodeConfig";
 
 interface FlowComponents {
   nodes: Node[];
@@ -40,6 +41,7 @@ const flowSlice = createSlice({
       action.payload.node.id = (state.nodeId + 1).toString();
       action.payload.edge.id = (state.edgeId + 1).toString();
       action.payload.edge.target = action.payload.node.id;
+      console.log(action.payload.edge)
       state.nodes.push(action.payload.node);
       state.edges.push(action.payload.edge);
       state.nodeId++;
@@ -91,6 +93,21 @@ const flowSlice = createSlice({
       state.nodes = nodesUpd;
     },
 
+    nodeChangeConfig: (
+      state,
+      action: { payload: { id: string; data: NodeConfig } }
+    ) => {
+      const nodeOld = current(state.nodes).find((node) => node.id === action.payload.id);
+      if (!nodeOld) {
+        return;
+      }
+      const nodeNew = { ...nodeOld, data: action.payload.data as {}};
+      const nodesUpd = current(state.nodes).map((node) =>
+        node.id === action.payload.id ? nodeNew : node
+      );
+      state.nodes = nodesUpd;
+    },
+
     edgeChange: (state, action: { payload: Edge[] }) => {
       state.edges = action.payload;
     },
@@ -119,6 +136,7 @@ export const {
   removeEdgeByNodeId,
   nodeChange,
   nodeChangeStyle,
+  nodeChangeConfig,
   edgeChange,
   prefabChange,
   saveChanges,

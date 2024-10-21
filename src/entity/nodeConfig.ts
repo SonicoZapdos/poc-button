@@ -22,3 +22,4 @@ export default interface NodeConfig {
     connectionLimit?: number;
     connectionEnd?: boolean;
 }
+

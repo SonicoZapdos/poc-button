@@ -21,7 +21,7 @@ function NodePrefab(position: XYPosition, type: string | null, nameStyle: string
             y: position.y,
         },
         type: 'acao',
-        data: { label: `Node test`, isVisible: false, nameStyle: 'acao' },
+        data: { label: `Node test`, isVisible: false, nameStyle: 'acao'},
         origin: [0.5, 0],
     };
 

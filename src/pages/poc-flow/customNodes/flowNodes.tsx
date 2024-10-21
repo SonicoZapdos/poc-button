@@ -1,9 +1,9 @@
-import { Handle, Node, NodeToolbar, Position } from "@xyflow/react";
+import { NodeToolbar } from "@xyflow/react";
 import { useDispatch } from "react-redux";
-import { nodeChangeStyle, removeNode } from "../../../redux/storeFlow/flowSlice";
-import nodeTypes from "../helpers/nodeTypes/nodeTypes";
+import { nodeChangeConfig, removeNode } from "../../../redux/storeFlow/flowSlice";
 import './customNodes.css';
 import NodeConfig from "../../../entity/nodeConfig";
+import Pointers from "./node-component/pointersFlow";
 
 interface CreateNodeProps {
     id: string;
@@ -15,32 +15,24 @@ function CreateNode({ id, data }: CreateNodeProps) {
 
     return (
         <>
-            <div>
-            <Handle
-                type="target"
-                position={Position.Top}
-                style={{ background: 'black' }}
-            />
-            <Handle
-                type="source"
-                position={Position.Bottom}
-                id="a"
-                style={{ background: 'black' }}
-            />
-            </div>
+            <Pointers data={data} />
             <NodeToolbar className="toolbar-button-node">
-                {nodeTypes.map((nodeType) => {
-                    return Object.keys(nodeType).map((key) => (
-                        <button className="button-node" key={key} onClick={() => dispatch(nodeChangeStyle({ id, key }))}>
-                            <div style={nodeType[key].style}></div>
-                        </button>
-                    ));
-                })}
-                <button className="button-node" onClick={() => dispatch(removeNode(id))}>
-                    <span className="material-symbols-outlined">
-                        delete
-                    </span>
-                </button>
+                <>
+                    <button className="button-node" onClick={() => dispatch(nodeChangeConfig({id , data: {...data, condition: 'test', connectionEnd: undefined}}))}>
+                        C
+                    </button>
+                    <button className="button-node" onClick={() => dispatch(nodeChangeConfig({id , data: {...data, condition: undefined, connectionEnd: true}}))}>
+                        NR
+                    </button>
+                    <button className="button-node" onClick={() => dispatch(nodeChangeConfig({id , data: {...data, condition: undefined, connectionEnd: undefined}}))}>
+                        D
+                    </button>
+                    <button className="button-node" onClick={() => dispatch(removeNode(id))}>
+                        <span className="material-symbols-outlined">
+                            delete
+                        </span>
+                    </button>
+                </>
             </NodeToolbar >
             <div className="div-node">
                 <div className="div-node-content">

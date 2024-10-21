@@ -7,6 +7,7 @@ import CustomEdge from "../customEdges/flowEdges";
 import NodePrefab from "../prefabsItens/nodePrefab";
 import SideBarAddNodes from "../sideBar/sideBarAddNodes";
 import ModalResult from "./modalResult";
+import EdgePrefab from "../prefabsItens/edgePrefab";
 
 const FlowTable = () => {
     const nodes: Node[] = useSelector((state: any) => state.flow.nodes);
@@ -49,12 +50,7 @@ const FlowTable = () => {
             const { clientX, clientY } = 'changedTouches' in event ? event.changedTouches[0] : event;
             const position = screenToFlowPosition({ x: clientX, y: clientY });
             const nodeNew: Node = NodePrefab(position, 'acao', 'acao');
-            const edgeNew: Edge = {
-                id: '0',
-                source: connectionState.fromNode?.id || '0',
-                target: '0',
-                type: 'custom',
-            };
+            const edgeNew: Edge = EdgePrefab(connectionState.fromNode?.id || '0' ,connectionState.fromHandle?.id as string || '0');
             const payload = { node: nodeNew, edge: edgeNew };
             dispatch(newNodeOfDrag(payload));
         }
